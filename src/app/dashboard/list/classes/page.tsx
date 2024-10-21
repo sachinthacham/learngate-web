@@ -2,25 +2,37 @@ import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import { role, subjectsData} from "@/lib/data";
+import {  classesData, role} from "@/lib/data";
 import Image from 'next/image'
+import Link from "next/link";
 
-
-type Subject = {
+type Class = {
     id:number;
     name:string;
-    teachers:string[];
+    capacity:number;
+    grade:number;
+    Supervisor:string;
 }
 
 const columns = [
     {
-     header: "Subject Name",
-     accessor : "subject",
+     header: "Class Name",
+     accessor : "name",
     },
     {
-    header:"Teachers",
-    accessor: "teachers",
-    className: "hidden lg:table-cell"
+    header:"Capacity",
+    accessor: "capacity",
+    className: "hidden md:table-cell"
+    },
+    {
+    header:"Grade",
+    accessor:"grade",
+    className: "hidden md:table-cell"
+    },
+    {
+    header:"Supervisor",
+    accessor:"supervisor",
+    className: "hidden md:table-cell"
     },
     {
     header:"Actions",
@@ -28,19 +40,21 @@ const columns = [
     },
 
 ]
-const StudentListpage = () => {
-    const renderRow = (item:Subject) => (
+const ClassListpage = () => {
+    const renderRow = (item:Class) => (
         <tr key={item.id} className="norder-b border-gray-200 even:bg-slate-50 hover:bg-lamaPurpleLight">
             <td className="flex items-center gap-4 p-4">{item.name}</td>
-            <td className="hidden md:table-cell">{item.teachers.join(",")}</td>
+            <td className="hidden md:table-cell">{item.capacity}</td>
+            <td className="hidden md:table-cell">{item.grade}</td>
+            <td className="hidden md:table-cell">{item.Supervisor}</td>
             <td>
                 <div className="flex items-center gap-2">
-                    
+                   
                     {role === "admin" && (
-                      <>
-                      <FormModal table="subject" type="update" data={item}/>
-                      <FormModal table="subject" type="delete" id={item.id}/>
-                      </>
+                        <>
+                            <FormModal table="class" type="update" data={item}/>
+                            <FormModal table="class" type="delete" id={item.id}/>
+                        </>
                     )}
                 </div>
             </td>
@@ -61,14 +75,14 @@ const StudentListpage = () => {
                         <Image src="/sort.png" alt="" width={14} height={14}/>
                     </button>
                     {role==="admin" &&
-                         <FormModal table="subject" type="create" />
+                        <FormModal table="class" type="create" />
                     }
                 </div>
             </div>
         </div>
         {/* List */}
         <div className="">
-            <Table columns={columns} renderRow={renderRow} data={subjectsData}/>
+            <Table columns={columns} renderRow={renderRow} data={classesData}/>
         </div>
 
         {/* Pagination */}
@@ -78,4 +92,4 @@ const StudentListpage = () => {
   )
 }
 
-export default StudentListpage;
+export default ClassListpage;
