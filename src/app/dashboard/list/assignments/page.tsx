@@ -1,10 +1,12 @@
+"use client"
 import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import {assignmentsData, role} from "@/lib/data";
+import {fetchAssignmentData, role} from "@/lib/data";
 import Image from 'next/image';
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type Assignment = {
     id:number;
@@ -41,6 +43,16 @@ const columns = [
 
 ]
 const AssignmentListpage = () => {
+
+    const[assignment, setAssignment] = useState<Assignment[]>([]);
+    useEffect(() => {
+        const fetchData = async() => {
+            const data = await fetchAssignmentData();
+            setAssignment(data);
+            console.log(data);
+        }
+        fetchData();
+    },[]);
     const renderRow = (item:Assignment) => (
         <tr key={item.id} className="norder-b border-gray-200 even:bg-slate-50 hover:bg-lamaPurpleLight">
             <td className="flex items-center gap-4 p-4">{item.subject}</td>
@@ -84,7 +96,7 @@ const AssignmentListpage = () => {
         </div>
         {/* List */}
         <div className="">
-            <Table columns={columns} renderRow={renderRow} data={assignmentsData}/>
+            <Table columns={columns} renderRow={renderRow} data={assignment}/>
         </div>
 
         {/* Pagination */}
