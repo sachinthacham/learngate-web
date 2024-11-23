@@ -1,22 +1,39 @@
+"use client"
+
 import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import {lessonsData, role} from "@/lib/data";
+import {fetchLessonData, role} from "@/lib/data";
 import Image from 'next/image'
-import Link from "next/link";
+import { useState,useEffect } from "react";
 
 type Lesson = {
     id:number;
-    subject:string;
-    class:string;
-    teacher:string;
- 
+    name:string;
+    subject:{
+        id:number,
+        name:number
+    };
+    class:{
+        id:number,
+        name:string
+    };
+    teacher:{
+        id:number,
+        name:string
+    }
+    startTime:string;
+    endTime:string
+    day:number
+
+   
+    
 }
 
 const columns = [
     {
-     header: "Subject Name",
+     header: "Lesson Name",
      accessor : "name",
     },
     {
@@ -37,16 +54,28 @@ const columns = [
 
 ]
 const LessonListpage = () => {
+
+    const[lesson, setLesson] = useState<Lesson[]>([]);
+    useEffect(()=> {
+        const fetchData = async () => {
+            const data = await fetchLessonData();
+            setLesson(data);
+        }
+        fetchData();
+    },[]);
     const renderRow = (item:Lesson) => (
         <tr key={item.id} className="norder-b border-gray-200 even:bg-slate-50 hover:bg-lamaPurpleLight">
-            <td className="flex items-center gap-4 p-4">{item.subject}</td>
-            <td>{item.class}</td>
-            <td className="hidden md:table-cell">{item.teacher}</td>
+            <td className="flex items-center gap-4 p-4">{item.name}</td>
+            <td>{item.subject.name}</td>
+            <td className="hidden md:table-cell">{item.teacher.name}</td>
+            <td className="hidden md:table-cell">{item.class.name}</td>
+            <td className="hidden md:table-cell">{item.startTime}</td>
+            <td className="hidden md:table-cell">{item.endTime}</td>
            
             <td>
                 <div className="flex items-center gap-2">
                    
-                    {role === "admin" && (
+                    {role === "Admin" && (
                         <>
                         <FormModal table="lesson" type="update" data={item}/>
                         <FormModal table="lesson" type="delete" id={item.id}/>
@@ -78,7 +107,7 @@ const LessonListpage = () => {
         </div>
         {/* List */}
         <div className="">
-            <Table columns={columns} renderRow={renderRow} data={lessonsData}/>
+            <Table columns={columns} renderRow={renderRow} data={lesson}/>
         </div>
 
         {/* Pagination */}
