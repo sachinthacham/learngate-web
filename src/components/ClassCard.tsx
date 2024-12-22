@@ -28,7 +28,7 @@ const GradeCard = ({ item}:ClassType) => {
       <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
       {/* Grade Level */}
       <h2 className="text-2xl font-bold mb-6 z-10">
-        Class {item.name}
+     class {item.name}
       </h2>
 
       {/* Admin Actions */}

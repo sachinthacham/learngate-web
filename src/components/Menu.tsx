@@ -2,94 +2,99 @@ import Link from "next/link";
 import Image from "next/image";
 import { role } from "@/lib/data";
 
-
 const menuItems = [
   {
     title: "MENU",
     items: [
       {
         icon: "/home.png",
-        label: "Home",
-        href: "/",
-        visible: ["admin", "teacher", "student", "parent"],
+        label: "Dashboard",
+        href: "/dashboard/admin",
+        visible: ["Admin", "Teacher", "Student", "Parent"],
       },
       {
         icon: "/teacher.png",
         label: "Teachers",
-        href: "/list/teachers",
-        visible: ["admin", "teacher"],
+        href: "/dashboard/list/teachers",
+        visible: ["Admin", "Teacher"],
       },
       {
         icon: "/student.png",
         label: "Students",
-        href: "/list/students",
-        visible: ["admin", "teacher"],
+        href: "/dashboard/list/student",
+        visible: ["Admin", "Teacher"],
       },
-      {
-        icon: "/parent.png",
-        label: "Parents",
-        href: "/list/parents",
-        visible: ["admin", "teacher"],
-      },
-      {
-        icon: "/subject.png",
-        label: "Subjects",
-        href: "/list/subjects",
-        visible: ["admin"],
-      },
-      {
-        icon: "/class.png",
-        label: "Classes",
-        href: "/list/classes",
-        visible: ["admin", "teacher"],
-      },
-      {
-        icon: "/lesson.png",
-        label: "Lessons",
-        href: "/list/lessons",
-        visible: ["admin", "teacher"],
-      },
-      {
-        icon: "/exam.png",
-        label: "Exams",
-        href: "/list/exams",
-        visible: ["admin", "teacher", "student", "parent"],
-      },
-      {
-        icon: "/assignment.png",
-        label: "Assignments",
-        href: "/list/assignments",
-        visible: ["admin", "teacher", "student", "parent"],
-      },
-      {
-        icon: "/result.png",
-        label: "Results",
-        href: "/list/results",
-        visible: ["admin", "teacher", "student", "parent"],
-      },
-      {
-        icon: "/attendance.png",
-        label: "Attendance",
-        href: "/list/attendance",
-        visible: ["admin", "teacher", "student", "parent"],
-      },
+      // {
+      //   icon: "/parent.png",
+      //   label: "Parents",
+      //   href: "/dashboard/list/parents",
+      //   visible: ["Admin", "Teacher"],
+      // },
+      // {
+      //   icon: "/subject.png",
+      //   label: "Subjects",
+      //   href: "/dashboard/list/subjects",
+      //   visible: ["Admin"],
+      // },
+      // {
+      //   icon: "/class.png",
+      //   label: "Classes",
+      //   href: "/dashboard/list/classes",
+      //   visible: ["Admin", "Teacher"],
+      // },
+      // {
+      //   icon: "/lesson.png",
+      //   label: "Lessons",
+      //   href: "/dashboard/list/lessons",
+      //   visible: ["Admin", "Teacher"],
+      // },
+      // {
+      //   icon: "/exam.png",
+      //   label: "Exams",
+      //   href: "/dashboard/list/exams",
+      //   visible: ["Admin", "Teacher", "Student", "Parent"],
+      // },
+      // {
+      //   icon: "/assignment.png",
+      //   label: "Assignments",
+      //   href: "/dashboard/list/assignments",
+      //   visible: ["Admin", "Teacher", "Student", "Parent"],
+      // },
+      // {
+      //   icon: "/result.png",
+      //   label: "Results",
+      //   href: "/dashboard/list/results",
+      //   visible: ["Admin", "Teacher", "Student", "Parent"],
+      // },
+      // {
+      //   icon: "/attendance.png",
+      //   label: "Attendance",
+      //   href: "/dashboard/list/attendance",
+      //   visible: ["Admin", "Teacher", "Student", "Parent"],
+      // },
       {
         icon: "/calendar.png",
         label: "Events",
-        href: "/list/events",
-        visible: ["admin", "teacher", "student", "parent"],
+        href: "/dashboard/list/events",
+        visible: ["Admin", "Teacher", "Student", "Parent"],
       },
       {
-        icon: "/message.png",
-        label: "Messages",
-        href: "/list/messages",
-        visible: ["admin", "teacher", "student", "parent"],
+        icon: "/class.png",
+        label: "Levels",
+        href: "/dashboard/list/grades",
+        visible: ["Admin", "Teacher", "Student", "Parent"],
       },
       {
         icon: "/announcement.png",
         label: "Announcements",
-        href: "/list/announcements",
-        visible: ["admin", "teacher", "student", "parent"],
+        href: "/dashboard/list/announcements",
+        visible: ["Admin", "Teacher", "Student", "Parent"],
+      },
+      {
+        icon: "/result.png",
+        label: "Payments",
+        href: "/dashboard/addPayment",
+        visible: ["Admin", "Teacher", "Student", "Parent"],
       },
     ],
   },
@@ -99,47 +104,51 @@ const menuItems = [
       {
         icon: "/profile.png",
         label: "Profile",
-        href: "/profile",
-        visible: ["admin", "teacher", "student", "parent"],
+        href: "/dashboard/profile",
+        visible: ["Admin", "Teacher", "Student", "Parent"],
       },
       {
         icon: "/setting.png",
         label: "Settings",
         href: "/settings",
-        visible: ["admin", "teacher", "student", "parent"],
+        visible: ["Admin", "Teacher", "Student", "Parent"],
       },
       {
         icon: "/logout.png",
         label: "Logout",
         href: "/logout",
-        visible: ["admin", "teacher", "student", "parent"],
+        visible: ["Admin", "Teacher", "Student", "Parent"],
       },
     ],
   },
 ];
 
- const Menu = () => {
+const Menu = () => {
   return (
     <div className="mt-4 text-sm">
-    {menuItems.map((i) => (
-      <div className="flex flex-col gap-2" key={i.title}>
-        <span className="hidden lg:block text-gray-400 font-light my-4">
-          {i.title}
-        </span>
-        {i.items.map((item) => {
-          if(item.visible.includes(role)){
-            return (
-              <Link href={item.href} key={item.label} className="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2">
-                <Image src={item.icon} alt="icon" width={20} height={20}/>
-                <span className="hidden lg:block">{item.label}</span>
-              </Link>
-            )
-          }
-        })}
-      </div>
-    ))}
- </div>
-  )
- }
+      {menuItems.map((i) => (
+        <div className="flex flex-col gap-2" key={i.title}>
+          <span className="hidden lg:block text-gray-400 font-light my-4">
+            {i.title}
+          </span>
+          {i.items.map((item) => {
+            if (item.visible.includes(role)) {
+              return (
+                <Link
+                  href={item.href}
+                  key={item.label}
+                  className="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2"
+                >
+                  <Image src={item.icon} alt="icon" width={20} height={20} />
+                  <span className="hidden lg:block">{item.label}</span>
+                </Link>
+              );
+            }
+          })}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default Menu;

@@ -5,8 +5,9 @@ import TeacherForm from "./forms/TeacherForm";
 import EventForm from "./forms/EventForm";
 import AnnouncementForm from "./forms/AnnouncementForm";
 
-import { FaPlus, FaEdit, FaTrash } from "react-icons/fa"; 
-
+import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import ClassForm from "./forms/ClassForm";
+import SubjectForm from "./forms/SubjectForm";
 
 const CreateIcon = () => {
   return <FaPlus className="text-green-500" size={24} />;
@@ -18,7 +19,6 @@ const UpdateIcon = () => {
 const DeleteIcon = () => {
   return <FaTrash className="text-red-600" size={24} />;
 };
-
 
 const FormModal = ({
   table,
@@ -69,12 +69,15 @@ const FormModal = ({
     if (type === "update" && id) {
       switch (table) {
         case "teacher":
-          return <TeacherForm type="update" data={data}/>;
+          return <TeacherForm type="update" data={data} />;
         case "event":
           return <div>Event update form goes here</div>;
         case "student":
-          
           return <div>Student update form goes here</div>;
+        case "class":
+          return <ClassForm type="update" data={data} />;
+        case "subject":
+          return <SubjectForm type="update" />;
         default:
           return <div>Form for {table} update not implemented</div>;
       }
@@ -85,12 +88,14 @@ const FormModal = ({
         case "teacher":
           return <TeacherForm type="create" />;
         case "event":
-        
-          return <EventForm type="create"/>;
+          return <EventForm type="create" />;
         case "announcements":
-            return <AnnouncementForm type="create"/>
-       
-          return <div>Student creation form goes here</div>;
+          return <AnnouncementForm type="create" />;
+        case "class":
+          return <ClassForm type="create" />;
+        case "subject":
+          return <SubjectForm type="create" />;
+
         default:
           return <div>Form for {table} creation not implemented</div>;
       }
@@ -105,9 +110,13 @@ const FormModal = ({
         onClick={() => setOpen(true)}
         className={`${size} flex items-center justify-center rounded-full ${bgColor}`}
       >
-       {
-        type === "create"? <CreateIcon/>: type === "update"? <UpdateIcon/> :<DeleteIcon/>
-       }
+        {type === "create" ? (
+          <CreateIcon />
+        ) : type === "update" ? (
+          <UpdateIcon />
+        ) : (
+          <DeleteIcon />
+        )}
       </button>
       {open && (
         <div className="w-screen h-screen absolute left-0 top-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
