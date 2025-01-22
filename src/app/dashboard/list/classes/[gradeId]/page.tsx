@@ -4,8 +4,10 @@ import ClassCard from "@/components/ClassCard";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation"; // Use useParams for dynamic segments
 import axios from "axios";
+import FormModal from "@/components/FormModal";
+import { role } from "@/lib/data";
 
-type Class = {
+type getClass = {
   id: number;
   name: string;
   capacity: number;
@@ -23,7 +25,7 @@ type Class = {
 };
 
 const ClassListpage = () => {
-  const [classes, setClasses] = useState<Class[]>([]);
+  const [classes, setClasses] = useState<getClass[]>([]);
   const { gradeId } = useParams(); // Extract gradeId using useParams
   const router = useRouter();
   useEffect(() => {
@@ -33,7 +35,7 @@ const ClassListpage = () => {
           const response = await axios.get(
             `http://localhost:5282/api/class/getbyGradeId/${gradeId}`
           );
-          console.log(response.data)
+          console.log(response.data);
           setClasses(response.data);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -44,14 +46,18 @@ const ClassListpage = () => {
   }, [gradeId]);
 
   // src\app\dashboard\list\classes\[gradeId]\page.tsx
-  const handleClassClick  = (classId: number) => {
-    router.push(`${gradeId}/classDashboard/${classId}`)
-  }
-  
+  const handleClassClick = (classId: number) => {
+    router.push(`${gradeId}/classDashboard/${classId}`);
+  };
+
   //src\app\dashboard\list\classes\[gradeId]\subjects\[classId]\page.tsx
   return (
     <div>
       <h1>Classes</h1>
+      <div className="flex justify-end">
+        {role === "Admin" && <FormModal table="class" type="create" />}
+      </div>
+
       <div className="min-h-screen bg-gray-100 flex justify-center items-center">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4 max-w-6xl">
           {classes.map((item, i) => (
@@ -61,8 +67,6 @@ const ClassListpage = () => {
           ))}
         </div>
       </div>
-
-      
     </div>
   );
 };
