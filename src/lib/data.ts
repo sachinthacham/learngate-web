@@ -1,6 +1,6 @@
 // TEMPORARY DATA
 
-export let role = "admin";
+export let role = "Admin";
 
 export const teachersData = [
   {
@@ -915,7 +915,6 @@ export const announcementsData = [
   },
 ];
 
-
 // YOU SHOULD CHANGE THE DATES OF THE EVENTS TO THE CURRENT DATE TO SEE THE EVENTS ON THE CALENDAR
 export const calendarEvents = [
   {
@@ -1061,3 +1060,262 @@ export const calendarEvents = [
     end: new Date(2024, 7, 16, 14, 45),
   },
 ];
+
+import { classValidatorResolver } from "@hookform/resolvers/class-validator";
+import axios from "axios";
+
+const BASE_URL = "http://localhost:5282/api/";
+const getAuthToken = () => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("jwtToken");
+  }
+  return null;
+};
+
+export const fetchSubjectData = async () => {
+  try {
+    const token = getAuthToken();
+    const response = await axios.get(`${BASE_URL}subject/getAllSubjects`, {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchParentData = async () => {
+  try {
+    const token = getAuthToken();
+    const response = await axios.get(`${BASE_URL}parent/geTAll`, {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchStudentData = async (
+  pageNumber: number,
+  pageSize: number,
+  classId?: number,
+  gradeId?: number,
+  search?: string
+) => {
+  try {
+    const response = await axios.get(`${BASE_URL}student/getAll`, {
+      params: {
+        search,
+        classId,
+        gradeId,
+        pageNumber,
+        pageSize,
+      },
+    });
+
+    if (response.data) {
+      const { data, pagination } = response.data;
+      return {
+        data: data,
+        totalRecords: pagination.totalCount,
+      };
+    }
+
+    throw new Error("Invalid API response format.");
+  } catch (error: any) {
+    console.error(
+      "Error fetching student data:",
+      error?.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const fetchAnnouncementData = async () => {
+  try {
+    const token = getAuthToken();
+    const response = await axios.get(`${BASE_URL}announcement/getAll`, {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchClassesData = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}class/getAll`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchAssignmentData = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}assignment/getAll`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchEventData = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}event/getAll`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchExamData = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}exam/getAll`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchLessonData = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}lesson/getAll`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchResultData = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}result/getAll`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchTeacherData = async (
+  pageNumber: number,
+  pageSize: number,
+  search: string,
+  subjectId?: number
+) => {
+  try {
+    const response = await axios.get(`${BASE_URL}teacher/getAll`, {
+      params: {
+        pageNumber,
+        pageSize,
+        subjectId,
+        search,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchGradeData = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}grade/getAll`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchRecentAnnouncementData = async () => {
+  try {
+    const token = getAuthToken();
+    const response = await axios.get(`${BASE_URL}announcement/getRecent`, {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchRecentEventData = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}event/getRecent`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchTotalCountData = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}getCount/getTotalCount`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchTeacherNames = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}teacher/GetTeacherNames`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchSubjectNames = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}subject/getNames`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const fetchStudentNames = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}student/getNames`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+// export const fetchClassesByGradeId = async (gradeId:number) => {
+//   try {
+//     const response = await axios.get(`${BASE_URL}class/getbyGradeId/${gradeId}`);
+//     console.log(response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//   }
+// };
